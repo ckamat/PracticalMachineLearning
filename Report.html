@@ -159,8 +159,10 @@ accuracy
 ##  Accuracy     Kappa 
 ## 0.9930331 0.9911870</code></pre>
 <pre><code>oose &lt;- 1 - as.numeric(confusionMatrix(testData$classe, predictRf)$overall[1])
-oose
-#### So, the estimated accuracy of the model is 99.30% and the estimated out-of-sample error is 0.70%.</code></pre>
+oose</code></pre>
+<div id="so-the-estimated-accuracy-of-the-model-is-99.30-and-the-estimated-out-of-sample-error-is-0.70." class="section level4">
+<h4>So, the estimated accuracy of the model is 99.30% and the estimated out-of-sample error is 0.70%.</h4>
+</div>
 </div>
 <div id="predicting-for-test-data-set" class="section level3">
 <h3>8.Predicting for Test Data Set</h3>
@@ -178,8 +180,10 @@ corrplot(corrPlot, method=&quot;color&quot;)</code></pre>
 <div id="tree-visualisation" class="section level3">
 <h3>2 Tree visualisation</h3>
 <pre><code>treeModel &lt;- rpart(classe ~ ., data=trainData, method=&quot;class&quot;)
-prp(treeModel) # fast plot
-</code></pre>
+prp(treeModel) # fast plot</code></pre>
+<div id="see-the-repository-folder-for-the-visualisation-figures-from-the-plot-functions." class="section level4">
+<h4>See the Repository folder for the visualisation figures from the plot functions.</h4>
+</div>
 </div>
 </div>
 

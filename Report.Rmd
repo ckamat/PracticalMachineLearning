@@ -3,8 +3,8 @@ title: "Practical Machine Learning course  Project work"
 author: "Chetan Kamat"
 date: "26th July 2015`"
 output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+Practical Machine Learning: >
+  %\VignetteIndexEntry{Practical Machine Learning}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
@@ -150,8 +150,9 @@ accuracy
 ```
 oose <- 1 - as.numeric(confusionMatrix(testData$classe, predictRf)$overall[1])
 oose
-#### So, the estimated accuracy of the model is 99.30% and the estimated out-of-sample error is 0.70%.
 ```
+#### So, the estimated accuracy of the model is 99.30% and the estimated out-of-sample error is 0.70%.
+
 
 
 ###  8.Predicting for Test Data Set
@@ -173,5 +174,5 @@ corrplot(corrPlot, method="color")
 ```
 treeModel <- rpart(classe ~ ., data=trainData, method="class")
 prp(treeModel) # fast plot
-
 ```
+#### See the Repository folder for the visualisation figures from the plot functions.
