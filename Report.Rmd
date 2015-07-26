@@ -1,0 +1,177 @@
+---
+title: "Practical Machine Learning course  Project work"
+author: "Chetan Kamat"
+date: "26th July 2015`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+## Practical Machine Learning course  Project work evaluating answers for 20 questions
+
+### 1: Loading required libraries
+```library(caret)
+library(rpart)
+library(rpart.plot)
+library(randomForest)
+library(corrplot)
+```
+
+### 2: Downloading the Data
+```
+trainUrl <-"https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv"
+testUrl <- "https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv"
+trainFile <- "./pml-training.csv"
+testFile  <- "./pml-testing.csv"
+
+if (!file.exists(trainFile)) {
+  download.file(trainUrl, destfile=trainFile, method="curl")
+}
+if (!file.exists(testFile)) {
+  download.file(testUrl, destfile=testFile, method="curl")
+}
+```
+
+### 3: Read the Data as test and training set
+```
+trainRaw <- read.csv("./pml-training.csv")
+testRaw <- read.csv("./pml-testing.csv")
+
+dim(trainRaw)
+## [1] 19622   160
+dim(testRaw)
+## [1]  20 160
+```
+
+### 4: Cleaning the data
+``` 
+sum(complete.cases(trainRaw))
+###  [1] 406
+```
+```
+trainRaw <- trainRaw[, colSums(is.na(trainRaw)) == 0] 
+testRaw <- testRaw[, colSums(is.na(testRaw)) == 0] 
+classe <- trainRaw$classe
+trainRemove <- grepl("^X|timestamp|window", names(trainRaw))
+trainRaw <- trainRaw[, !trainRemove]
+trainCleaned <- trainRaw[, sapply(trainRaw, is.numeric)]
+trainCleaned$classe <- classe
+testRemove <- grepl("^X|timestamp|window", names(testRaw))
+testRaw <- testRaw[, !testRemove]
+testCleaned <- testRaw[, sapply(testRaw, is.numeric)]
+dim(trainRaw)
+## [1] 19622    87
+dim(testRaw)
+## [1] 20 54
+```
+
+### 5: Slice the Data 
+```
+set.seed(22519) # For reproducibile purpose
+inTrain <- createDataPartition(trainCleaned$classe, p=0.70, list=F)
+trainData <- trainCleaned[inTrain, ]
+testData <- trainCleaned[-inTrain, ]
+```
+
+### 6. DATA MODELLING  using 5 fold cross validation
+```
+controlRf <- trainControl(method="cv", 5)
+modelRf <- train(classe ~ ., data=trainData, method="rf", trControl=controlRf, ntree=250)
+modelRf
+## Random Forest 
+## 
+## 13737 samples
+##    52 predictor
+##     5 classes: 'A', 'B', 'C', 'D', 'E' 
+## 
+## No pre-processing
+## Resampling: Cross-Validated (5 fold) 
+## 
+## Summary of sample sizes: 10989, 10989, 10991, 10990, 10989 
+## 
+## Resampling results across tuning parameters:
+## 
+## mtry  Accuracy   Kappa      Accuracy SD  Kappa SD   
+## 2    0.9910462  0.9886729  0.001301269  0.001647776
+## 27    0.9914102  0.9891334  0.001717547  0.002174708
+## 52    0.9850037  0.9810264  0.002718384  0.003439965
+## 
+## Accuracy was used to select the optimal model using  the largest value.
+## The final value used for the model was mtry = 27.
+
+```
+
+### 7. Build the confusion matrix
+```
+predictRf <- predict(modelRf, testData)
+confusionMatrix(testData$classe, predictRf)
+
+## Confusion Matrix and Statistics
+##
+## Reference
+## Prediction    A    B    C    D    E
+## A 1672    1    0    0    1
+## B    7 1128    4    0    0
+## C    0    0 1021    5    0
+## D    0    0   14  949    1
+## E    0    0    1    7 1074
+## 
+## Overall Statistics
+## 
+## Accuracy : 0.993          
+## 95% CI : (0.9906, 0.995)
+## No Information Rate : 0.2853         
+## P-Value [Acc > NIR] : < 2.2e-16      
+## 
+## Kappa : 0.9912         
+## Mcnemar's Test P-Value : NA             
+## 
+## Statistics by Class:
+## 
+##                      Class: A Class: B Class: C Class: D Class: E
+## Sensitivity            0.9958   0.9991   0.9817   0.9875   0.9981
+## Specificity            0.9995   0.9977   0.9990   0.9970   0.9983
+## Pos Pred Value         0.9988   0.9903   0.9951   0.9844   0.9926
+## Neg Pred Value         0.9983   0.9998   0.9961   0.9976   0.9996
+## Prevalence             0.2853   0.1918   0.1767   0.1633   0.1828
+## Detection Rate         0.2841   0.1917   0.1735   0.1613   0.1825
+## Detection Prevalence   0.2845   0.1935   0.1743   0.1638   0.1839
+## Balanced Accuracy      0.9977   0.9984   0.9903   0.9922   0.9982
+
+accuracy <- postResample(predictRf, testData$classe)
+accuracy
+##  Accuracy     Kappa 
+## 0.9930331 0.9911870
+```
+
+
+```
+oose <- 1 - as.numeric(confusionMatrix(testData$classe, predictRf)$overall[1])
+oose
+#### So, the estimated accuracy of the model is 99.30% and the estimated out-of-sample error is 0.70%.
+```
+
+
+###  8.Predicting for Test Data Set
+```
+result <- predict(modelRf, testCleaned[, -length(names(testCleaned))])
+result
+```
+
+
+## APPENDIX: Figures
+
+### 1  Correlation Matrix Visualization
+```
+corrPlot <- cor(trainData[, -length(names(trainData))])
+corrplot(corrPlot, method="color")
+```
+
+### 2 Tree visualisation
+```
+treeModel <- rpart(classe ~ ., data=trainData, method="class")
+prp(treeModel) # fast plot
+
+```

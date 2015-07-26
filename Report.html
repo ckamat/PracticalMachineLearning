@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="author" content="Chetan Kamat" />
+
+
+<title>Practical Machine Learning course Project work</title>
+
+
+
+
+<link href="data:text/css,body%20%7B%0A%20%20background%2Dcolor%3A%20%23fff%3B%0A%20%20margin%3A%201em%20auto%3B%0A%20%20max%2Dwidth%3A%20700px%3B%0A%20%20overflow%3A%20visible%3B%0A%20%20padding%2Dleft%3A%202em%3B%0A%20%20padding%2Dright%3A%202em%3B%0A%20%20font%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0A%20%20font%2Dsize%3A%2014px%3B%0A%20%20line%2Dheight%3A%201%2E35%3B%0A%7D%0A%0A%23header%20%7B%0A%20%20text%2Dalign%3A%20center%3B%0A%7D%0A%0A%23TOC%20%7B%0A%20%20clear%3A%20both%3B%0A%20%20margin%3A%200%200%2010px%2010px%3B%0A%20%20padding%3A%204px%3B%0A%20%20width%3A%20400px%3B%0A%20%20border%3A%201px%20solid%20%23CCCCCC%3B%0A%20%20border%2Dradius%3A%205px%3B%0A%0A%20%20background%2Dcolor%3A%20%23f6f6f6%3B%0A%20%20font%2Dsize%3A%2013px%3B%0A%20%20line%2Dheight%3A%201%2E3%3B%0A%7D%0A%20%20%23TOC%20%2Etoctitle%20%7B%0A%20%20%20%20font%2Dweight%3A%20bold%3B%0A%20%20%20%20font%2Dsize%3A%2015px%3B%0A%20%20%20%20margin%2Dleft%3A%205px%3B%0A%20%20%7D%0A%0A%20%20%23TOC%20ul%20%7B%0A%20%20%20%20padding%2Dleft%3A%2040px%3B%0A%20%20%20%20margin%2Dleft%3A%20%2D1%2E5em%3B%0A%20%20%20%20margin%2Dtop%3A%205px%3B%0A%20%20%20%20margin%2Dbottom%3A%205px%3B%0A%20%20%7D%0A%20%20%23TOC%20ul%20ul%20%7B%0A%20%20%20%20margin%2Dleft%3A%20%2D2em%3B%0A%20%20%7D%0A%20%20%23TOC%20li%20%7B%0A%20%20%20%20line%2Dheight%3A%2016px%3B%0A%20%20%7D%0A%0Atable%20%7B%0A%20%20margin%3A%201em%20auto%3B%0A%20%20border%2Dwidth%3A%201px%3B%0A%20%20border%2Dcolor%3A%20%23DDDDDD%3B%0A%20%20border%2Dstyle%3A%20outset%3B%0A%20%20border%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0A%20%20border%2Dwidth%3A%202px%3B%0A%20%20padding%3A%205px%3B%0A%20%20border%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0A%20%20border%2Dwidth%3A%201px%3B%0A%20%20border%2Dstyle%3A%20inset%3B%0A%20%20line%2Dheight%3A%2018px%3B%0A%20%20padding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0A%20%20border%2Dleft%2Dstyle%3A%20none%3B%0A%20%20border%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0A%20%20background%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0A%0Ap%20%7B%0A%20%20margin%3A%200%2E5em%200%3B%0A%7D%0A%0Ablockquote%20%7B%0A%20%20background%2Dcolor%3A%20%23f6f6f6%3B%0A%20%20padding%3A%200%2E25em%200%2E75em%3B%0A%7D%0A%0Ahr%20%7B%0A%20%20border%2Dstyle%3A%20solid%3B%0A%20%20border%3A%20none%3B%0A%20%20border%2Dtop%3A%201px%20solid%20%23777%3B%0A%20%20margin%3A%2028px%200%3B%0A%7D%0A%0Adl%20%7B%0A%20%20margin%2Dleft%3A%200%3B%0A%7D%0A%20%20dl%20dd%20%7B%0A%20%20%20%20margin%2Dbottom%3A%2013px%3B%0A%20%20%20%20margin%2Dleft%3A%2013px%3B%0A%20%20%7D%0A%20%20dl%20dt%20%7B%0A%20%20%20%20font%2Dweight%3A%20bold%3B%0A%20%20%7D%0A%0Aul%20%7B%0A%20%20margin%2Dtop%3A%200%3B%0A%7D%0A%20%20ul%20li%20%7B%0A%20%20%20%20list%2Dstyle%3A%20circle%20outside%3B%0A%20%20%7D%0A%20%20ul%20ul%20%7B%0A%20%20%20%20margin%2Dbottom%3A%200%3B%0A%20%20%7D%0A%0Apre%2C%20code%20%7B%0A%20%20background%2Dcolor%3A%20%23f7f7f7%3B%0A%20%20border%2Dradius%3A%203px%3B%0A%20%20color%3A%20%23333%3B%0A%7D%0Apre%20%7B%0A%20%20white%2Dspace%3A%20pre%2Dwrap%3B%20%20%20%20%2F%2A%20Wrap%20long%20lines%20%2A%2F%0A%20%20border%2Dradius%3A%203px%3B%0A%20%20margin%3A%205px%200px%2010px%200px%3B%0A%20%20padding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0A%20%20background%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0A%0Acode%20%7B%0A%20%20font%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0A%20%20font%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0A%20%20padding%3A%202px%200px%3B%0A%7D%0A%0Adiv%2Efigure%20%7B%0A%20%20text%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0A%20%20background%2Dcolor%3A%20%23FFFFFF%3B%0A%20%20padding%3A%202px%3B%0A%20%20border%3A%201px%20solid%20%23DDDDDD%3B%0A%20%20border%2Dradius%3A%203px%3B%0A%20%20border%3A%201px%20solid%20%23CCCCCC%3B%0A%20%20margin%3A%200%205px%3B%0A%7D%0A%0Ah1%20%7B%0A%20%20margin%2Dtop%3A%200%3B%0A%20%20font%2Dsize%3A%2035px%3B%0A%20%20line%2Dheight%3A%2040px%3B%0A%7D%0A%0Ah2%20%7B%0A%20%20border%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0A%20%20padding%2Dtop%3A%2010px%3B%0A%20%20padding%2Dbottom%3A%202px%3B%0A%20%20font%2Dsize%3A%20145%25%3B%0A%7D%0A%0Ah3%20%7B%0A%20%20border%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0A%20%20padding%2Dtop%3A%2010px%3B%0A%20%20font%2Dsize%3A%20120%25%3B%0A%7D%0A%0Ah4%20%7B%0A%20%20border%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0A%20%20margin%2Dleft%3A%208px%3B%0A%20%20font%2Dsize%3A%20105%25%3B%0A%7D%0A%0Ah5%2C%20h6%20%7B%0A%20%20border%2Dbottom%3A%201px%20solid%20%23ccc%3B%0A%20%20font%2Dsize%3A%20105%25%3B%0A%7D%0A%0Aa%20%7B%0A%20%20color%3A%20%230033dd%3B%0A%20%20text%2Ddecoration%3A%20none%3B%0A%7D%0A%20%20a%3Ahover%20%7B%0A%20%20%20%20color%3A%20%236666ff%3B%20%7D%0A%20%20a%3Avisited%20%7B%0A%20%20%20%20color%3A%20%23800080%3B%20%7D%0A%20%20a%3Avisited%3Ahover%20%7B%0A%20%20%20%20color%3A%20%23BB00BB%3B%20%7D%0A%20%20a%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0A%20%20%20%20text%2Ddecoration%3A%20underline%3B%20%7D%0A%20%20a%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0A%20%20%20%20text%2Ddecoration%3A%20underline%3B%20%7D%0A%0A%2F%2A%20Class%20described%20in%20https%3A%2F%2Fbenjeffrey%2Ecom%2Fposts%2Fpandoc%2Dsyntax%2Dhighlighting%2Dcss%0A%20%20%20Colours%20from%20https%3A%2F%2Fgist%2Egithub%2Ecom%2Frobsimmons%2F1172277%20%2A%2F%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%2F%2A%20Keyword%20%2A%2F%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%2F%2A%20DataType%20%2A%2F%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%2F%2A%20DecVal%20%28decimal%20values%29%20%2A%2F%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20BaseN%20%2A%2F%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20Float%20%2A%2F%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20Char%20%2A%2F%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20String%20%2A%2F%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%2F%2A%20Comment%20%2A%2F%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%2F%2A%20OtherToken%20%2A%2F%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%2F%2A%20AlertToken%20%2A%2F%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%2F%2A%20Function%20calls%20%2A%2F%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%2F%2A%20ErrorTok%20%2A%2F%0A%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+<div id="header">
+<h1 class="title">Practical Machine Learning course Project work</h1>
+<h4 class="author"><em>Chetan Kamat</em></h4>
+<h4 class="date"><em>26th July 2015`</em></h4>
+</div>
+
+
+<div id="practical-machine-learning-course-project-work-evaluating-answers-for-20-questions" class="section level2">
+<h2>Practical Machine Learning course Project work evaluating answers for 20 questions</h2>
+<div id="loading-required-libraries" class="section level3">
+<h3>1: Loading required libraries</h3>
+<pre class="library(caret)"><code>library(rpart)
+library(rpart.plot)
+library(randomForest)
+library(corrplot)</code></pre>
+</div>
+<div id="downloading-the-data" class="section level3">
+<h3>2: Downloading the Data</h3>
+<pre><code>trainUrl &lt;-&quot;https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv&quot;
+testUrl &lt;- &quot;https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv&quot;
+trainFile &lt;- &quot;./pml-training.csv&quot;
+testFile  &lt;- &quot;./pml-testing.csv&quot;
+
+if (!file.exists(trainFile)) {
+  download.file(trainUrl, destfile=trainFile, method=&quot;curl&quot;)
+}
+if (!file.exists(testFile)) {
+  download.file(testUrl, destfile=testFile, method=&quot;curl&quot;)
+}</code></pre>
+</div>
+<div id="read-the-data-as-test-and-training-set" class="section level3">
+<h3>3: Read the Data as test and training set</h3>
+<pre><code>trainRaw &lt;- read.csv(&quot;./pml-training.csv&quot;)
+testRaw &lt;- read.csv(&quot;./pml-testing.csv&quot;)
+
+dim(trainRaw)
+## [1] 19622   160
+dim(testRaw)
+## [1]  20 160</code></pre>
+</div>
+<div id="cleaning-the-data" class="section level3">
+<h3>4: Cleaning the data</h3>
+<pre><code>sum(complete.cases(trainRaw))
+###  [1] 406</code></pre>
+<pre><code>trainRaw &lt;- trainRaw[, colSums(is.na(trainRaw)) == 0] 
+testRaw &lt;- testRaw[, colSums(is.na(testRaw)) == 0] 
+classe &lt;- trainRaw$classe
+trainRemove &lt;- grepl(&quot;^X|timestamp|window&quot;, names(trainRaw))
+trainRaw &lt;- trainRaw[, !trainRemove]
+trainCleaned &lt;- trainRaw[, sapply(trainRaw, is.numeric)]
+trainCleaned$classe &lt;- classe
+testRemove &lt;- grepl(&quot;^X|timestamp|window&quot;, names(testRaw))
+testRaw &lt;- testRaw[, !testRemove]
+testCleaned &lt;- testRaw[, sapply(testRaw, is.numeric)]
+dim(trainRaw)
+## [1] 19622    87
+dim(testRaw)
+## [1] 20 54</code></pre>
+</div>
+<div id="slice-the-data" class="section level3">
+<h3>5: Slice the Data</h3>
+<pre><code>set.seed(22519) # For reproducibile purpose
+inTrain &lt;- createDataPartition(trainCleaned$classe, p=0.70, list=F)
+trainData &lt;- trainCleaned[inTrain, ]
+testData &lt;- trainCleaned[-inTrain, ]</code></pre>
+</div>
+<div id="data-modelling-using-5-fold-cross-validation" class="section level3">
+<h3>6. DATA MODELLING using 5 fold cross validation</h3>
+<pre><code>controlRf &lt;- trainControl(method=&quot;cv&quot;, 5)
+modelRf &lt;- train(classe ~ ., data=trainData, method=&quot;rf&quot;, trControl=controlRf, ntree=250)
+modelRf
+## Random Forest 
+## 
+## 13737 samples
+##    52 predictor
+##     5 classes: 'A', 'B', 'C', 'D', 'E' 
+## 
+## No pre-processing
+## Resampling: Cross-Validated (5 fold) 
+## 
+## Summary of sample sizes: 10989, 10989, 10991, 10990, 10989 
+## 
+## Resampling results across tuning parameters:
+## 
+## mtry  Accuracy   Kappa      Accuracy SD  Kappa SD   
+## 2    0.9910462  0.9886729  0.001301269  0.001647776
+## 27    0.9914102  0.9891334  0.001717547  0.002174708
+## 52    0.9850037  0.9810264  0.002718384  0.003439965
+## 
+## Accuracy was used to select the optimal model using  the largest value.
+## The final value used for the model was mtry = 27.
+</code></pre>
+</div>
+<div id="build-the-confusion-matrix" class="section level3">
+<h3>7. Build the confusion matrix</h3>
+<pre><code>predictRf &lt;- predict(modelRf, testData)
+confusionMatrix(testData$classe, predictRf)
+
+## Confusion Matrix and Statistics
+##
+## Reference
+## Prediction    A    B    C    D    E
+## A 1672    1    0    0    1
+## B    7 1128    4    0    0
+## C    0    0 1021    5    0
+## D    0    0   14  949    1
+## E    0    0    1    7 1074
+## 
+## Overall Statistics
+## 
+## Accuracy : 0.993          
+## 95% CI : (0.9906, 0.995)
+## No Information Rate : 0.2853         
+## P-Value [Acc &gt; NIR] : &lt; 2.2e-16      
+## 
+## Kappa : 0.9912         
+## Mcnemar's Test P-Value : NA             
+## 
+## Statistics by Class:
+## 
+##                      Class: A Class: B Class: C Class: D Class: E
+## Sensitivity            0.9958   0.9991   0.9817   0.9875   0.9981
+## Specificity            0.9995   0.9977   0.9990   0.9970   0.9983
+## Pos Pred Value         0.9988   0.9903   0.9951   0.9844   0.9926
+## Neg Pred Value         0.9983   0.9998   0.9961   0.9976   0.9996
+## Prevalence             0.2853   0.1918   0.1767   0.1633   0.1828
+## Detection Rate         0.2841   0.1917   0.1735   0.1613   0.1825
+## Detection Prevalence   0.2845   0.1935   0.1743   0.1638   0.1839
+## Balanced Accuracy      0.9977   0.9984   0.9903   0.9922   0.9982
+
+accuracy &lt;- postResample(predictRf, testData$classe)
+accuracy
+##  Accuracy     Kappa 
+## 0.9930331 0.9911870</code></pre>
+<pre><code>oose &lt;- 1 - as.numeric(confusionMatrix(testData$classe, predictRf)$overall[1])
+oose
+#### So, the estimated accuracy of the model is 99.30% and the estimated out-of-sample error is 0.70%.</code></pre>
+</div>
+<div id="predicting-for-test-data-set" class="section level3">
+<h3>8.Predicting for Test Data Set</h3>
+<pre><code>result &lt;- predict(modelRf, testCleaned[, -length(names(testCleaned))])
+result</code></pre>
+</div>
+</div>
+<div id="appendix-figures" class="section level2">
+<h2>APPENDIX: Figures</h2>
+<div id="correlation-matrix-visualization" class="section level3">
+<h3>1 Correlation Matrix Visualization</h3>
+<pre><code>corrPlot &lt;- cor(trainData[, -length(names(trainData))])
+corrplot(corrPlot, method=&quot;color&quot;)</code></pre>
+</div>
+<div id="tree-visualisation" class="section level3">
+<h3>2 Tree visualisation</h3>
+<pre><code>treeModel &lt;- rpart(classe ~ ., data=trainData, method=&quot;class&quot;)
+prp(treeModel) # fast plot
+</code></pre>
+</div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
